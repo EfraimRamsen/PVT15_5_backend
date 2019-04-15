@@ -18,6 +18,7 @@ public class HelloworldApplication {
 	    @RequestMapping("/sayHello")
         public String greeting(){
 	        return "Hello, it works!";
+	        
         }
 
     }
