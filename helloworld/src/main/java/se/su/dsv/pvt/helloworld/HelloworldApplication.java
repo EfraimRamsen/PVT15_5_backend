@@ -1,24 +1,5 @@
 package se.su.dsv.pvt.helloworld;
 
-//@SpringBootApplication
-//public class HelloworldApplication {
-//
-//	public static void main(String[] args) {
-//		SpringApplication.run(HelloworldApplication.class, args);
-//	}
-//
-//	@RestController
-//    public class helloRestController{
-//	    @RequestMapping("/sayHello")
-//        public String greeting(){
-//	        return "Hello, it works!";
-//
-//        }
-//
-//    }
-//
-//}
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
