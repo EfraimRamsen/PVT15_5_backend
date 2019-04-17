@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 public class HelloworldApplication extends SpringBootServletInitializer {
+    long time = System.currentTimeMillis();
+
     public static void main(String[] args) {
+
         SpringApplication.run(HelloworldApplication.class, args);
     }
     @Override
@@ -25,6 +28,19 @@ public class HelloworldApplication extends SpringBootServletInitializer {
         @RequestMapping("/sayHello")
         public String greeting(){
             return "Hello, it works!";
+
+        }
+    }
+
+    //Jocke testar lagring på servern (har även lagt till en tids-variabel för att fixa det.
+    @RestController
+    public class checkTimeSinceBuild{
+        @CrossOrigin
+        @RequestMapping("/time")
+        public String timeCalc(){
+
+            long timeSinceBuild = time - System.currentTimeMillis();
+            return "The build was made: " + time + ". \n Time since build is: " + timeSinceBuild;
 
         }
     }
