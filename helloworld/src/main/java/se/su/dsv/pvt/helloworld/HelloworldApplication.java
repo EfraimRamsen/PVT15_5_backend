@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 public class HelloworldApplication extends SpringBootServletInitializer {
+
+    //Variabler för att testa lagring på servern (används i timeCalc-metoden
     long time = System.currentTimeMillis();
+    String buildDate = java.time.LocalDateTime.now().toString();
 
     public static void main(String[] args) {
 
@@ -39,9 +42,20 @@ public class HelloworldApplication extends SpringBootServletInitializer {
         @RequestMapping("/time")
         public String timeCalc(){
 
-            long timeSinceBuild = time - System.currentTimeMillis();
-            return "The build was made: " + time + ". \n Time since build is: " + timeSinceBuild;
+            long millisSinceBuild = System.currentTimeMillis() - time;
+            String timeSinceBuild = calcMillisToTime(millisSinceBuild);
 
+
+            return "The build was made: " + buildDate + ". \n Time since build is: " + timeSinceBuild;
+        }
+
+        //Gör om en long med millisekunder till en sträng med minuter och sekunder
+        private String calcMillisToTime(long millis){
+
+            long minutes = (millis / 1000) / 60;
+            long seconds = (millis / 1000) % 60;
+
+            return minutes + " minutes and " + seconds + " seconds ago.";
         }
     }
 
