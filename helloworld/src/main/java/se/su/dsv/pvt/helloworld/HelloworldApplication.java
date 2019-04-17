@@ -30,15 +30,15 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
 	@RestController
 	public class EfraimTesting{
-		String name = "Efraim";
-		int id = 881025;
-		String location = "59.407428,17.945602";//G10:5
-		boolean hasChallenge = false;
-
+		@CrossOrigin
 		@RequestMapping("/efraim")
 		public String parameters() {
 			return name + id + location + hasChallenge;
 		}
+		String name = "Efraim";
+		int id = 881025;
+		String location = "59.407428,17.945602";//G10:5
+		boolean hasChallenge = false;
 	}
 }
 
