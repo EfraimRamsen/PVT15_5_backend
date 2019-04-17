@@ -33,7 +33,13 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 		@CrossOrigin
 		@RequestMapping("/efraim")
 		public String parameters() {
-			return name + id + location + hasChallenge;
+			return name +
+					"\n" +
+					id +
+					"\n" +
+					location +
+					"\n" +
+					hasChallenge;
 		}
 		String name = "Efraim";
 		int id = 881025;
