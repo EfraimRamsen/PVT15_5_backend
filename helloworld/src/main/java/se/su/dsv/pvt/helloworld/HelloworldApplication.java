@@ -6,6 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -27,6 +28,32 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
         }
     }
+
+    // JSON-version av HelloWorld
+	@RestController
+	public class HelloJSONRestController{
+		@CrossOrigin
+		@RequestMapping(value = "/sayJSON", method = RequestMethod.GET, produces = "application/json")
+		public String greeting(){
+			StringResponse response = new StringResponse("JSON fungerar");
+			return response.getResponse();
+		}
+
+		private class StringResponse {
+			private String response;
+			public StringResponse(String response) {
+				this.response = response;
+			}
+
+			public String getResponse() {
+				return response;
+			}
+
+			public void setResponse(String response) {
+				this.response = response;
+			}
+		}
+	}
 
 	@RestController
 	public class EfraimTesting{
