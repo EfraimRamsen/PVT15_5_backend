@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,28 +18,14 @@ public class HelloworldApplication extends SpringBootServletInitializer {
         return builder.sources(HelloworldApplication.class);
     }
 
-    @RestController
-    public class HelloRestController{
+    	@RestController
+    public class helloRestController{
+        @CrossOrigin
         @RequestMapping("/sayHello")
         public String greeting(){
             return "Hello, it works!";
 
         }
-    }
-
-    @RestController
-    public class EfraimTesting{
-        String name = "Efraim";
-        int id = 881025;
-        String location = "59.407428,17.945602";//G10:5
-        boolean hasChallenge = false;
-
-        @RequestMapping("/efraim")
-        public String parameters() {
-            return name + id + location + hasChallenge;
-        }
-
-
     }
 }
 
