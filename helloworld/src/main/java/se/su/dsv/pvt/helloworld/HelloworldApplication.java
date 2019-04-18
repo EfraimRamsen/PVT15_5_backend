@@ -25,7 +25,7 @@ public class HelloworldApplication extends SpringBootServletInitializer {
         return builder.sources(HelloworldApplication.class);
     }
 
-    	@RestController
+    @RestController
     public class HelloRestController{
         @CrossOrigin
         @RequestMapping("/sayHello")
@@ -89,7 +89,10 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	public class EfraimTesting{
 		@CrossOrigin
 		@RequestMapping("/efraim")
-		public String parameters() {
+		public EfraimTestingPerson getPerson(){
+			return new EfraimTestingPerson("Efraim",30,"Sweden");
+		}
+/*		public String parameters() {
 			return name +
 					"\n" +
 					id +
@@ -101,7 +104,38 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 		String name = "Efraim";
 		int id = 881025;
 		String location = "59.407428,17.945602";//G10:5
-		boolean hasChallenge = false;
+		boolean hasChallenge = false;*/
+	}
+
+	public class EfraimTestingPerson{
+    	public EfraimTestingPerson(String name, int age, String country){
+    		super();
+    		this.name = name;
+    		this.age = age;
+    		this.country = country;
+	    }
+    	private String name;
+    	private int age;
+    	private String country;
+
+    	public String getName(){
+    		return name;
+	    }
+	    public void setName(String name){
+    		this.name = name;
+    	}
+    	public int getAge(){
+    		return age;
+		}
+		public void setAge(int age){
+    		this.age = age;
+		}
+		public String getCountry(){
+    		return country;
+		}
+		public void setCountry(String country){
+    		this.country = country;
+		}
 	}
 }
 
