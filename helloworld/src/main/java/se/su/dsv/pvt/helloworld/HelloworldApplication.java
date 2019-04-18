@@ -88,7 +88,7 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	@RestController
 	public class EfraimTesting{
 		@CrossOrigin
-		@RequestMapping("/efraim")
+		@RequestMapping(value = "/efraim", method = RequestMethod.GET, produces = "application/json")
 		public EfraimTestingPerson getPerson(){
 			return new EfraimTestingPerson("Efraim",30,"Sweden");
 		}
@@ -107,6 +107,15 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 		boolean hasChallenge = false;*/
 	}
 
+	/**
+	 * Funkade inte! Måste konvertera:
+	 *
+	 * HTTP Status 500 ? Internal Server Error
+	 *
+	 * Type Exception Report
+	 *
+	 * Message No converter found for return value of type: class se.su.dsv.pvt.helloworld.HelloworldApplication$EfraimTestingPerson
+	 */
 	public class EfraimTestingPerson{
     	public EfraimTestingPerson(String name, int age, String country){
     		super();
