@@ -1,8 +1,10 @@
 package se.su.dsv.pvt.helloworld;
 
+import com.fasterxml.jackson.core.JsonParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,8 +91,8 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	public class EfraimTesting{
 		@CrossOrigin
 		@RequestMapping(value = "/efraim", method = RequestMethod.GET, produces = "application/json")
-		public EfraimTestingPerson getPerson(){
-			return new EfraimTestingPerson("Efraim",30,"Sweden");
+		public String greeting(){
+			return EfraimTestingPerson.class.toString();
 		}
 /*		public String parameters() {
 			return name +
@@ -119,9 +121,9 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	public class EfraimTestingPerson{
     	public EfraimTestingPerson(String name, int age, String country){
     		super();
-    		this.name = name;
-    		this.age = age;
-    		this.country = country;
+    		this.name = "Efraim";
+    		this.age = 30;
+    		this.country = "Swe";
 	    }
     	private String name;
     	private int age;
