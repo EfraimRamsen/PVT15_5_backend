@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,8 +66,8 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	@RestController
 	public class HelloJSONRestController{
 		@CrossOrigin
-		@RequestMapping(value = "/sayJSON", method = RequestMethod.GET, produces = "application/json")
-		public Object greeting(){
+		@RequestMapping(value = "/sayJSON", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		public StringResponse greeting(){
 			StringResponse response = new StringResponse("test", "JD", "99");
 			return response;
 		}
