@@ -66,15 +66,20 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 	public class HelloJSONRestController{
 		@CrossOrigin
 		@RequestMapping(value = "/sayJSON", method = RequestMethod.GET, produces = "application/json")
-		public String greeting(){
-			StringResponse response = new StringResponse("JSON fungerar");
-			return response.getResponse();
+		public Object greeting(){
+			StringResponse response = new StringResponse("test", "JD", "99");
+			return response;
 		}
 
 		private class StringResponse {
 			private String response;
-			public StringResponse(String response) {
+			private String name;
+			private String age;
+
+			public StringResponse(String response, String name, String age) {
 				this.response = response;
+				this.name = name;
+				this.age = age;
 			}
 
 			public String getResponse() {
@@ -83,6 +88,14 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
 			public void setResponse(String response) {
 				this.response = response;
+			}
+
+			public String getName() {
+				return name;
+			}
+
+			public String getAge() {
+				return age;
 			}
 		}
 	}
