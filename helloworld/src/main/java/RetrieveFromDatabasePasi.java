@@ -3,6 +3,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+
+/**
+ *   Class to retrive data from the database. takes a SQL query as input to the constructor and then establies a connection to
+ *   the database. then runs the query and stores the results in a resultset that is returned
+ */
 public class RetrieveFromDatabasePasi {
 
         private String sqlQuery;
@@ -11,8 +16,8 @@ public class RetrieveFromDatabasePasi {
         public RetrieveFromDatabasePasi(String sqlQuery){
             this.sqlQuery = sqlQuery;
             connectToPasi();
-        }
 
+        }
         protected ResultSet connectToPasi() {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
