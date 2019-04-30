@@ -21,6 +21,8 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
+
+    	RetriveOutdoorGymsFromDatabase rt = new RetriveOutdoorGymsFromDatabase();
         SpringApplication.run(HelloworldApplication.class, args);
     }
     @Override
