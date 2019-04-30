@@ -25,7 +25,6 @@ public class RetrieveFromDatabasePasi {
                 Statement stmt = con.createStatement();
                 resultsToReturn = stmt.executeQuery(sqlQuery);
 
-
             } catch (Exception e) {
                 System.out.print(e);
             }
