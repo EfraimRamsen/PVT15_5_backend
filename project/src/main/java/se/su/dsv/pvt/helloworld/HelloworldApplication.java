@@ -1,6 +1,8 @@
 package se.su.dsv.pvt.helloworld;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,6 +13,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @SpringBootApplication
 public class HelloworldApplication extends SpringBootServletInitializer {
@@ -109,66 +115,48 @@ public class HelloworldApplication extends SpringBootServletInitializer {
         }
 	}
 
+
 	@RestController
 	public class EfraimTesting{
 		@CrossOrigin
-		@RequestMapping(value = "/efraim", method = RequestMethod.GET, produces = "application/json")
-		public String greeting(){
-			return EfraimTestingPerson.class.toString();
-		}
-/*		public String parameters() {
-			return name +
-					"\n" +
-					id +
-					"\n" +
-					location +
-					"\n" +
-					hasChallenge;
-		}
-		String name = "Efraim";
-		int id = 881025;
-		String location = "59.407428,17.945602";//G10:5
-		boolean hasChallenge = false;*/
-	}
+		@RequestMapping(value = "/gyms", method = RequestMethod.GET, produces = "application/json")
+		public String listOfGyms(){
+			String intro = "De utegym som finns i Stockholm är ";
+			String gyms = "";
 
-	/**
-	 * Funkade inte! Måste konvertera:
-	 *
-	 * HTTP Status 500 ? Internal Server Error
-	 *
-	 * Type Exception Report
-	 *
-	 * Message No converter found for return value of type: class se.su.dsv.pvt.helloworld.HelloworldApplication$EfraimTestingPerson
-	 */
-	public class EfraimTestingPerson{
-    	public EfraimTestingPerson(String name, int age, String country){
-    		super();
-    		this.name = "Efraim";
-    		this.age = 30;
-    		this.country = "Swe";
-	    }
-    	private String name;
-    	private int age;
-    	private String country;
-
-    	public String getName(){
-    		return name;
-	    }
-	    public void setName(String name){
-    		this.name = name;
-    	}
-    	public int getAge(){
-    		return age;
-		}
-		public void setAge(int age){
-    		this.age = age;
-		}
-		public String getCountry(){
-    		return country;
-		}
-		public void setCountry(String country){
-    		this.country = country;
+			return intro + " " +  gyms +".";
 		}
 	}
 }
 
+/**
+ * Hämtar in JSON-objekt från en URL till Stockholm stads API. Läser in data från JSON-objektet till klassen Utegym.
+ */
+class HämtaUtegym{
+		ObjectMapper objectMapper = new ObjectMapper();
+//		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		URL url = new URL("http://api.stockholm.se/ServiceGuideService/ServiceUnitTypes/96a67da3-938b-487e-ac34-49b155cb277b/ServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f");
+		Utegym utegym = objectMapper.readValue(url, Utegym.class);
+		HämtaUtegym() throws IOException {
+		}
+	}
+
+
+	class Utegym{
+		private String name = "";
+		//lägg till fler attribut sen
+
+
+	}
+
+/*
+public class Car {
+	private String brand = null;
+	private int doors = 0;
+
+	public String getBrand() { return this.brand; }
+	public void   setBrand(String brand){ this.brand = brand;}
+
+	public int  getDoors() { return this.doors; }
+	public void setDoors (int doors) { this.doors = doors; }
+}*/
