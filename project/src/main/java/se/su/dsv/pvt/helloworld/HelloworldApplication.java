@@ -3,6 +3,7 @@ package se.su.dsv.pvt.helloworld;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -27,6 +28,8 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
+    	//Efraim testar:
+	    GetUtegym getUtegym = new GetUtegym();
         SpringApplication.run(HelloworldApplication.class, args);
     }
     @Override
@@ -132,21 +135,39 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 /**
  * Hämtar in JSON-objekt från en URL till Stockholm stads API. Läser in data från JSON-objektet till klassen Utegym.
  */
-class HämtaUtegym{
-		ObjectMapper objectMapper = new ObjectMapper();
+	class GetUtegym {
+		private ObjectMapper objectMapper = new ObjectMapper();
 //		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		URL url = new URL("http://api.stockholm.se/ServiceGuideService/ServiceUnitTypes/96a67da3-938b-487e-ac34-49b155cb277b/ServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f");
-		Utegym utegym = objectMapper.readValue(url, Utegym.class);
-		HämtaUtegym() throws IOException {
-		}
+	public void getUtegym() throws IOException {
+	URL url = new URL("http://api.stockholm.se/ServiceGuideService/ServiceUnitTypes/96a67da3-938b-487e-ac34-49b155cb277b/ServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f");
+
+	Utegym utegym = objectMapper.readValue(url, Utegym.class);
+		System.out.println("Namn = " + utegym.getName());
+}
+
 	}
 
 
 	class Utegym{
-		private String name = "";
+		private String name = null;
+		private String id = null;
 		//lägg till fler attribut sen
 
+		public void setName(String name) {
+			this.name = name;
+		}
 
+		public String getName() {
+			return name;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
 	}
 
 /*
