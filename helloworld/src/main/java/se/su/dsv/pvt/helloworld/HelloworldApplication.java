@@ -21,8 +21,10 @@ public class HelloworldApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
-
+		//Line for testing if connection works, should be deleted.
     	RetriveOutdoorGymsFromDatabase rt = new RetriveOutdoorGymsFromDatabase();
+
+
         SpringApplication.run(HelloworldApplication.class, args);
     }
     @Override

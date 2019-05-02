@@ -24,7 +24,6 @@ public class RetriveOutdoorGymsFromDatabase {
      *
      *
      */
-
     private String sqlQuery = ("SELECT * FROM Workoutspot");
     private Statement stmt;
     private Connection con;
@@ -38,40 +37,39 @@ public class RetriveOutdoorGymsFromDatabase {
 
     private void executeQuery() {
         try {
-            Class.forName("com.mariadb.jdbc.Driver");
+
+            Class.forName("org.mariadb.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mariadb://mysql.dsv.su.se:3306/pasi2645", "pasi2645", "aijee1mau7Ip");
             stmt = con.createStatement();
             result = stmt.executeQuery(sqlQuery);
 
-
-
             //content in while must be replaced to create outdoorgyms and place in collection
             while (result.next()) {
-
+                System.out.println("OK!");
                 //insert creation of workoutspot, in this case outdoorgyms. to make system scalable create seperate table.
 
             }
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally {
+        } finally {
             try {
                 result.close();
                 stmt.close();
                 con.close();
-            }catch(Exception e){
+            } catch (Exception e) {
+
+            }
+
 
         }
 
-
-    }
-
-    // OutdoorGyms must be created as a class.
- //   public Collection<OutdoorGyms> getCollection(){
+        // OutdoorGyms must be created as a class.
+        //   public Collection<OutdoorGyms> getCollection(){
 
 //        return outdoorGymCollection;
 //    }
 
+    }
 }
 
 

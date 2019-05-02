@@ -37,6 +37,9 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.8" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.8" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
+          <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:1.1.7" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:jna:4.5.2" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:jna:platform:3.3.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
