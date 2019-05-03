@@ -16,6 +16,10 @@ form of a collection
 
 all comments will be above the code it refers to.
 
+
+TO DO!
+Fix the creation of the outdoorGym object.
+
 Remember!
 close the statement otherwise crash!
 close the connection otherwise crash!
