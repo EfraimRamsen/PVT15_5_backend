@@ -1,13 +1,25 @@
 package projectfiles;
 
-import java.sql.Time;
 import java.util.Date;
 
 public class Challenge {
 	private String name;
-	private Time time; // ej säker på om det är rätt tänkt
-	private Date date;
+	private Date date = new Date();
+
+	Challenge(String name){
+		this.name = name;
 
 
+	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	@Override
+	public String toString(){
+		return "\nChallenge toString: "+
+				"\nName: "+ name +
+				"\nDate: "+ date;
+	}
 }
