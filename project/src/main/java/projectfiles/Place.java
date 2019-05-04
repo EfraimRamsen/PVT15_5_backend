@@ -3,7 +3,7 @@ package projectfiles;
 /**
  * Abstract class
  */
-public class Place {
+public abstract class Place {
     Location location;
     String name;
 
