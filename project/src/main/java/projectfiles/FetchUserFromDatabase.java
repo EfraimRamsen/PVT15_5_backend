@@ -60,8 +60,8 @@ public class FetchUserFromDatabase {
                 String email = rs.getString("E-Mail");
 
                 //this must be fixed, efter User class is complete, proper construction
-                User user = new User();
-                userCollection.add(user);
+//                User user = new User();//TODO making a comment so the code runs /efraim
+//                userCollection.add(user);
 
             }
 

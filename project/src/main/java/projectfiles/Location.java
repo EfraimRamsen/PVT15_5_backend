@@ -12,4 +12,10 @@ public class Location {
         this.x = x;
         this.y = y;
     }
+
+    // used for testing
+    @Override
+    public String toString(){
+        return x + ", " + y;
+    }
 }
