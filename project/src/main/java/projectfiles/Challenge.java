@@ -1,5 +1,6 @@
 package projectfiles;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -7,13 +8,20 @@ import java.util.Date;
  */
 public class Challenge {
 	private String name;
-	private Date date = new Date();
+	private int maxParticipants;
+	private String level; //TODO bestämma ifall det här ska vara en String eller kanske en egen klass?
+    private String workoutType;
+	private Date eventTimeAndDate = new Date(); //Valde att enbart göra en instans av datum och inte en separat för tid eftersom att tid finns inbyggt i datum-klassen
 	private String description; //TODO fixa den här
+    private ArrayList<User> participantList = new ArrayList<>();
 
-	Challenge(String name){
+	Challenge(String name, int maxParticipants, String level, String workoutType, Date eventTimeAndDate, String description){
 		this.name = name;
-
-
+		this.maxParticipants = maxParticipants;
+		this.level = level;
+		this.workoutType = workoutType;
+		this.eventTimeAndDate = eventTimeAndDate;
+		this.description = description;
 	}
 
 	// used for testing
@@ -21,6 +29,6 @@ public class Challenge {
 	public String toString(){
 		return "\nChallenge toString: "+
 				"\nName: "+ name +
-				"\nDate: "+ date;
+				"\nDate: "+ eventTimeAndDate;
 	}
 }
