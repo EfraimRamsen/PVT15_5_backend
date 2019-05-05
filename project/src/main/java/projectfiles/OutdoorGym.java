@@ -5,8 +5,11 @@ package projectfiles;
  */
 public class OutdoorGym extends Place{
 
-    public OutdoorGym(Location location, String name){
+    boolean hasLights;
+
+    public OutdoorGym(Location location, String name, boolean hasLights){
         super(location, name);
+        this.hasLights = hasLights;
     }
 
     // used for testing
