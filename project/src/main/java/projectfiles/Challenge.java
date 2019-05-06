@@ -1,7 +1,5 @@
 package projectfiles;
-
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 /**
  * The Challenge that a user can create
@@ -15,7 +13,7 @@ public class Challenge {
 	private String description; //TODO fixa den här
     private ArrayList<User> participantList = new ArrayList<>();
 
-	Challenge(String name, int numberOfParticipants, String level, String workoutType, Date eventTimeAndDate, String description){
+	public Challenge(String name, int numberOfParticipants, String level, String workoutType, Date eventTimeAndDate, String description){
 		this.name = name;
 		this.numberOfParticipants = numberOfParticipants;
 		this.level = level;
