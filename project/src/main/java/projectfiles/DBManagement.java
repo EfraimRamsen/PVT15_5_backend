@@ -1,5 +1,12 @@
 package projectfiles;
-/*
+
+import javax.sql.rowset.CachedRowSet;
+import java.sql.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
 this is a class to handle all database management. instead of having to know every class that does one thing to the database
 we got 1 class that has metods that does those things. one object to use methods on instead of 20 different classes to handle.
 
@@ -22,18 +29,8 @@ addNewChallenge
 addNewOutdoorGym
 addNewParticipation
 
-Written by Michel
+@author Michel
  */
-
-
-
-
-import javax.sql.rowset.CachedRowSet;
-import java.sql.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class DBManagement {
 
     private CachedRowSet crs;
