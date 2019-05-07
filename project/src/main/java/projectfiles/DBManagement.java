@@ -121,7 +121,7 @@ public class DBManagement {
                 String gymDesctiption = crs.getString("outdoorGymDesc");
                 Location location = new Location(longitude, latitude);
                 boolean hasLights = true;
-                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, hasLights);
+                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
                 outdoorGymCollection.add(outdoorGym);
                 //test line delete after testing
                 System.out.println("ett outdoorGym object"+gymName);
@@ -153,7 +153,7 @@ public class DBManagement {
                 String gymDesctiption = crs.getString("outdoorGymDesc");
                 Location location = new Location(longitude, latitude);
                 boolean hasLights = true;
-                outdoorGym = new OutdoorGym(location, gymName, hasLights);
+                outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
 
             }
         } catch (SQLException e) {
