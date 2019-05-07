@@ -4,12 +4,12 @@ package projectfiles;
  * Inherits from Place
  */
 public class OutdoorGym extends Place{
+    private String description;
 
-    boolean hasLights;
-
-    public OutdoorGym(Location location, String name, boolean hasLights){
+    public OutdoorGym(Location location, String name, String description){
         super(location, name);
-        this.hasLights = hasLights; //TODO Finns inte i API, tror det bara var ett exempel på unikt värde för subklass i modelleringen /Efraim
+        this.description = description;
+
     }
 
     // used for testing
