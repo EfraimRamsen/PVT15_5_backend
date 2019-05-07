@@ -1,6 +1,5 @@
 package projectfiles;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,17 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/*
+/**
 this is a class to fetch the users from and create user objects that are stored in a collection and return that collection
 
 TO DO
 fix the creation of the User object. User class needs to be complete.
 
-REMEBER
+REMEMBER
 close connection or crash
 close statement or crash
 
-written by Michel
+@author Michel
  */
 public class FetchUserFromDatabase {
 

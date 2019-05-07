@@ -7,7 +7,8 @@ import java.sql.Statement;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
-/*
+
+/**
 this is a class to fetch challenges created by users from the database and create challenge objects and return those objects
 as a collection.
 
@@ -23,9 +24,8 @@ do not forget to close statement or crash
 do not forget to close connection or crash
 
 
-written by Michel
+@author Michel
  */
-
 
 public class FetchChallengeFromDatabase {
 

@@ -1,6 +1,5 @@
 package projectfiles;
 
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.Connection;
@@ -9,8 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.*;
 
-
-/*
+/**
 this is a class to handle the connection to a database. it takes a SQL query as input and creates a connection.
 returns the result in a cachedrowset that will survive the connection.
 
@@ -20,9 +18,8 @@ REMEMBER
 close connection or crash
 close statement or crash
 
-written by Michel
+@author Michel
 */
-
 public class ConnectionToPasiDB {
 
     private final String driverName = ("org.mariadb.jdbc.Driver");

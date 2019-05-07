@@ -1,6 +1,5 @@
 package projectfiles;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,8 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
-/*
+/**
 this is a class to fetch outdoorgyms from database and create outdoorgym objects and return those objects in the
 form of a collection
 
@@ -24,10 +22,8 @@ Remember!
 close the statement otherwise crash!
 close the connection otherwise crash!
 
-written by Michel
+@author Michel
  */
-
-
 public class FetchOutdoorGymsFromDatabase {
 
     private String sqlQuery = "SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId";
