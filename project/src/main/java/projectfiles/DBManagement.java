@@ -26,8 +26,6 @@ Written by Michel
  */
 
 
-
-
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
 import java.sql.SQLException;
@@ -35,9 +33,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class DBManagement {
-
+    private String errorMessage;
     private CachedRowSet crs;
-    private ConnectionToPasiDB ctpdb;
+    private ConnectionToPasiDB ctpdb = new ConnectionToPasiDB();
+
     /*
     a method to retrive all challenges from the database and return those challenges in the form of a collection
     will return empthy collection if no challenges exsists
@@ -48,8 +47,7 @@ public class DBManagement {
         Collection<Challenge> challengeCollection = new ArrayList<>();
         challengeCollection.clear();
         try {
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
+            crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
                 String challengeName = crs.getString("ChallengeName");
                 String challengeDesc = crs.getString("Description");
@@ -60,7 +58,7 @@ public class DBManagement {
                 Date date = crs.getDate("Date");
 
                 //this is a testline only. delete once tested
-                System.out.println(challengeName+challengeDesc+atLocationId);
+                System.out.println(challengeName + challengeDesc + atLocationId);
                 //TODO these lines when challenge object is complete with proper constructor
                 //Challenge challenge = new Challenge();
                 //challengeCollection.add(challenge);
@@ -68,7 +66,6 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb = null;
         return challengeCollection;
     }
 
@@ -81,8 +78,8 @@ public class DBManagement {
         String sqlQuery = ("SELECT " + i + " FROM `Challenge`");
         Challenge challenge = null;
         try {
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
+            crs = ctpdb.getData(sqlQuery);
+            ;
             while (crs.next()) {
                 String challengeName = crs.getString("ChallengeName");
                 String challengeDesc = crs.getString("Description");
@@ -97,10 +94,9 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb = null;
         if (challenge != null) {
             return challenge;
-        }else return null;
+        } else return null;
     }
 
     public Collection getAllOutdoorGyms() {
@@ -114,8 +110,7 @@ public class DBManagement {
         outdoorGymCollection.clear();
         String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId");
         try {
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
+            crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
                 String gymName = crs.getString("WorkoutSpotName");
                 int longitude = crs.getInt("Longitude");
@@ -127,12 +122,11 @@ public class DBManagement {
                 OutdoorGym outdoorGym = new OutdoorGym(location, gymName, hasLights);
                 outdoorGymCollection.add(outdoorGym);
                 //test line delete after testing
-                System.out.println("ett outdoorGym object"+gymName);
+                System.out.println("ett outdoorGym object" + gymName);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb = null;
         return outdoorGymCollection;
     }
 
@@ -140,14 +134,13 @@ public class DBManagement {
     this is a method to collect a single outdoorGym from the database and return that object
     will return null if outdoorgym does not exsists
      */
-    public OutdoorGym getOneOutdoorGym (int i ){
+    public OutdoorGym getOneOutdoorGym(int i) {
 
         String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId" +
                 "AND OutdoorGymID = " + i);
         OutdoorGym outdoorGym = null;
         try {
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
+            crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
                 String gymName = crs.getString("WorkoutSpotName");
                 int longitude = crs.getInt("Longitude");
@@ -162,10 +155,9 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb = null;
         if (outdoorGym != null) {
             return outdoorGym;
-        }else return null;
+        } else return null;
     }
 
     public Collection getAllUsers() {
@@ -179,8 +171,7 @@ public class DBManagement {
         userCollection.clear();
 
         try {
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
+            crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
 
                 String userName = crs.getString("UserName");
@@ -189,7 +180,7 @@ public class DBManagement {
                 String email = crs.getString("E-Mail");
 
                 //test line delete after testing
-                System.out.println("ett challange object"+userName);
+                System.out.println("ett challange object" + userName);
 
                 //TODO user object needs fixing with firstName, lastName and E-Mail, password should not be stored in user object
                 //User user = new User(userName, );
@@ -199,7 +190,6 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb= null;
         return userCollection;
     }
 
@@ -207,14 +197,13 @@ public class DBManagement {
     a method to get a singel user from the database
     will return null if user does not exsists
      */
-    public User getOneUser(String userNameInput){
+    public User getOneUser(String userNameInput) {
 
         User user = null;
-        String sqlQuery = ("SELECT "+userNameInput+" FROM User");
-        try{
-            ctpdb = new ConnectionToPasiDB(sqlQuery);
-            crs = ctpdb.getResult();
-            while(crs.next()){
+        String sqlQuery = ("SELECT " + userNameInput + " FROM User");
+        try {
+            crs = ctpdb.getData(sqlQuery);
+            while (crs.next()) {
                 String userName = crs.getString("UserName");
                 String firstName = crs.getString("FirstName");
                 String lastName = crs.getString("LastName");
@@ -226,10 +215,107 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ctpdb = null;
-        if (user!= null){
+        if (user != null) {
             return user;
-        }else return null;
+        } else return null;
     }
 
+    /*
+    this is a method to collect all participations from database, create participation object and return those object in
+    a list.
+    will return empty list if no participations are in database.
+     */
+    public Collection getAllParticipations() {
+        String sqlQuery = ("SELECT * FROM Participation");
+        //TODO once participation object has been created untab these
+        //Participation participation;
+        //Collection<> participationCollection = new ArrayList<>();
+        //participationCollection.clear();
+
+        //TODO delete this line onces the rest is fixed.
+        Collection<String> errorfix = new ArrayList<>();
+
+        try {
+            crs = ctpdb.getData(sqlQuery);
+            while (crs.next()) {
+                String userName = crs.getString("UserName");
+                int challengeID = crs.getInt("ChallengeID");
+
+                //TODO create participation object
+                //participation = new Participation(userName, challengeID);
+                //participationCollection.add(participation)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //TODO once participation exists fix this
+        //return participationCollection;
+        return errorfix;
+    }
+
+
+    /*
+    this is a method for collection a single participation from the database, create a participation object and
+    return that object.
+
+    TODO this method is currently not working as there is no participation class that object can be created off.
+    public Participation getOneParticipation(String userName){
+        Participation participation;
+        String sqlQuery =("SELECT "+userName+" FROM participation");
+        crs = ctpdb.getData(sqlQuery);
+        while(crs.next()){
+            String userName = crs.getString("UserName");
+            int challengeID = crs.getInt("ChallengeID");
+            participation = new Participation(userName,challengeID);
+        }
+        if(participation != null) {
+            return participation;
+        }else return null;
+    }
+    */
+
+    /*
+    this is a mthod used for the spring demo. can be used again if another demo is needed.
+     */
+    public String sprintDemo() {
+        String sqlQuery = ("SELECT * FROM Challenge WHERE ChallengeID = 1");
+        String message = null;
+        try {
+            crs = ctpdb.getData(sqlQuery);
+            while (crs.next()) {
+                String challengeName = crs.getString("ChallengeName");
+                String challengeDesc = crs.getString("Description");
+                int atLocationId = crs.getInt("WorkoutSpotID");
+                int challengeID = crs.getInt("ChallengeID");
+                int participants = crs.getInt("Participants");
+                Date date = crs.getDate("Date");
+                message = (challengeName + "\n" + challengeDesc);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+    /*
+    this is a method for adding a new user to the database. will return true and false depending on if the adding was
+    successfull, if a fail it will automaticly retrive the errormessage and hold it if its needed.
+     */
+    public boolean addUser(String userName, String firstName, String lastName, String Email) {
+        String sqlQuery = ("INSERT INTO User SET UserName = '" + userName + "', FirstName = '"
+                + firstName + "', LastName = '" + lastName + "', Email ='" + Email + "'");
+        boolean success = ctpdb.insertData(sqlQuery);
+        if (!success) {
+            errorMessage = ctpdb.getErrorMessage();
+        }
+        return success;
+    }
+
+    /*
+    a method for forwarding the error message so it can be used if needed
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 }
