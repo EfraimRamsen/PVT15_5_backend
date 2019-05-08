@@ -2,15 +2,12 @@ package projectfiles;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 public class Main {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
 
-        new FetchJSONFromAPI().parse();
+//        new FetchJSONFromAPI().parseFromAllOutdoorGyms();//Test API & print gyms
 
 
 

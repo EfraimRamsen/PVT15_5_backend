@@ -7,11 +7,22 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 
+/**
+ * Fetches JSON-objects from the Stockholm API and parses them by looping through the
+ * array of JSON-objects and mapping the keys and values into a new java object.
+ *
+ * @author Efraim (& Edvin)
+ */
 public class FetchJSONFromAPI{
 	private HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
 
-	public void parse(){
+	/**
+	 * Fetches a list of all outdoor gyms in Stockholm and loops through it to create
+	 * OutdoorGym objects that are stored in the outdoorGymHashmap.
+	 */
+	public void parseFromAllOutdoorGyms(){
 		try {
+			//URL with a list of all outdoor gyms in Stockholm
 			URL url = new URL(
 				"http://api.stockholm.se/ServiceGuideService/ServiceUnitTypes/96a67da3-938b-487e-ac34-49b155cb277b/ServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f");
 			InputStreamReader reader = new InputStreamReader(url.openStream());
@@ -31,6 +42,12 @@ public class FetchJSONFromAPI{
 		}
 	}
 
+	/**
+	 * Fetches the values from X & Y in the API and returns a Location object created from
+	 * those values.
+	 * @param position
+	 * @return Location location
+	 */
 	public Location parseLocation(JsonObject position){
 		int x = position.get("X").getAsInt();
 		int y = position.get("Y").getAsInt();
@@ -38,9 +55,17 @@ public class FetchJSONFromAPI{
 		return location;
 	}
 
+	/**
+	 * Creates a new OutdoorGym from the parameters and stores it in the outdoorGymHashMap
+	 * @param i
+	 * @param position
+	 * @param gymName
+	 * @param gymDescription
+	 */
 	public void parseGym(int i, Location position, String gymName, String gymDescription){
 		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,gymDescription));
 
+		//TEST
 		System.out.println(
 				"i: "+ i +
 				"\ngymName: " + gymName +
@@ -51,7 +76,7 @@ public class FetchJSONFromAPI{
 	}
 
 	public HashMap<Integer,OutdoorGym> getAllOutdoorGyms(){
-		parse();
+		parseFromAllOutdoorGyms();
 		return outdoorGymHashMap;
 	}
 
