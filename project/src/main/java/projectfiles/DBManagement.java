@@ -328,16 +328,16 @@ public class DBManagement {
      */
 
     public boolean addOutdoorGym(String name, String description, int longitude, int latitude ){
-        String sqlQuery = ("INSERT INTO WorkoutSpot SET WorkoutSpotName = '"+ name +" , HasChallenge = false");
+        String sqlQuery = ("INSERT INTO Workoutspot SET WorkoutSpotName = '"+ name +"' , HasChallenge = false");
         int workoutSpotID = ctpdb.addAndReturnIncrementValue(sqlQuery);
-        sqlQuery = ("INSERT INTO OutdoorGym SET WorkoutSpotId = '"+workoutSpotID+ ", outdoorGymDesc = '"+ description+"'");
+        sqlQuery = ("INSERT INTO OutdoorGym SET WorkoutSpotId = '"+workoutSpotID+ "', outdoorGymDesc = '"+ description+"'");
         boolean successOnOutdoorgym = ctpdb.insertData(sqlQuery);
         if(!successOnOutdoorgym){
             errorMessage = ctpdb.getErrorMessage();
             return false;
         }
-        sqlQuery = ("INSERT INTO Location SET WorkoutSpotId = '"+workoutSpotID+" , Longitude = '"
-        +longitude+ ", Latitude = '"+latitude+"' ");
+        sqlQuery = ("INSERT INTO Location SET WorkoutSpotId = '"+workoutSpotID+"' , Longitude = '"
+        +longitude+ "', Latitude = '"+latitude+"' ");
         Boolean successOnLocation = ctpdb.insertData(sqlQuery);
         if(!successOnLocation){
             errorMessage = ctpdb.getErrorMessage();
@@ -357,7 +357,7 @@ public class DBManagement {
 
     public boolean addChallenge(String desc, String name, Time time, Date date, int workoutSpotID){
         String sqlQuery = ("INSERT INTO Challenge SET WorkoutSpotid = '"+ workoutSpotID
-                +" , ChallengeName = '"+name+"' , Time = '"+time+"' , Date = '"+date+
+                +"' , ChallengeName = '"+name+"' , Time = '"+time+"' , Date = '"+date+
                 "' , Description = '"+desc+"' , Participants = '0'");
         boolean success = ctpdb.insertData(sqlQuery);
         if (!success) {
@@ -365,6 +365,7 @@ public class DBManagement {
         }
         return success;
     }
+
 
     /**
      * a method for forwarding the error message so it can be used if needed
