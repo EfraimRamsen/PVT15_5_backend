@@ -14,10 +14,10 @@ public class Main {
 
 
         DBManagement dbm = new DBManagement();
-        boolean success = dbm.addOutdoorGym("testGym", "fult gym!",
-                314421 ,4214421  );
+        String userName = ("nills");
+        boolean success = dbm.addParticipation(4, userName);
         if (success) {
-            System.out.println("outdoorGym has been added");
+            System.out.println(userName+ " has been added to challenge");
         }
         if (!success) {
             System.out.println(dbm.getErrorMessage());
@@ -31,6 +31,15 @@ public class Main {
         boolean success = dbm.addChallenge("FITNESSSS", "grimsta!", time, date, 1);
         if (success) {
             System.out.println("challenge has been added");
+        }
+        if (!success) {
+            System.out.println(dbm.getErrorMessage());
+
+
+                    boolean success = dbm.addOutdoorGym("testGym", "fult gym!",
+                314421 ,4214421  );
+        if (success) {
+            System.out.println("outdoorGym has been added");
         }
         if (!success) {
             System.out.println(dbm.getErrorMessage());

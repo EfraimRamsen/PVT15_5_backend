@@ -366,6 +366,20 @@ public class DBManagement {
         return success;
     }
 
+    /**
+     * Method for adding a new participation to the database
+     * @param challengeID the primarykey of the challenge, and the identifier of the challenge
+     * @param userName a unique identifier for a user
+     * @return will return true if all went well, otherwise get the error message and store it and return false
+     */
+    public boolean addParticipation(int challengeID, String userName){
+        String sqlQuery = ("INSERT INTO Participation SET ChallengeID ='"+challengeID+"' , UserName = '"+userName+"'");
+        boolean success = ctpdb.insertData(sqlQuery);
+        if(!success){
+            errorMessage = ctpdb.getErrorMessage();
+            return false;
+        }return true;
+    }
 
     /**
      * a method for forwarding the error message so it can be used if needed
