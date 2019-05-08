@@ -7,29 +7,30 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
-this is a class to handle all database management. instead of having to know every class that does one thing to the database
-we got 1 class that has metods that does those things. one object to use methods on instead of 20 different classes to handle.
-
-Comments are above the code it refers to
-
-METHODS SO FAR
-getAllChallenge
-getOneChallenge
-getAllOutdoorGyms
-getOneOutdoorGym
-getAllUsers
-getOneUser
-
-
-TO DO
-getAllParticipations
-getOneParticipation
-addNewUser
-addNewChallenge
-addNewOutdoorGym
-addNewParticipation
-
-@author Michel
+ * this is a class to handle all database management. instead of having to know every class that does one thing to the database
+ * we got 1 class that has metods that does those things. one object to use methods on instead of 20 different classes to handle.
+ *
+ * Comments are above the code it refers to
+ *
+ * METHODS SO FAR
+ * getAllChallenge
+ * getOneChallenge
+ * getAllOutdoorGyms
+ * getOneOutdoorGym
+ * getAllUsers
+ * getOneUser
+ * addNewUser
+ * addNewOutdoorGym
+ *
+ * TO FIX
+ * getAllParticipations
+ * getOneParticipation
+ *
+ * TO DO
+ * addNewChallenge
+ * addNewParticipation
+ *
+ * @author Michel
  */
 
 
@@ -38,15 +39,16 @@ public class DBManagement {
     private CachedRowSet crs;
     private ConnectionToPasiDB ctpdb = new ConnectionToPasiDB();
 
+
     /**
-    a method to retrive all challenges from the database and return those challenges in the form of a collection
-    will return empthy collection if no challenges exsists
+     *     a method to retrive all challenges from the database and return those challenges in the form of a collection
+     *     will return empthy collection if no challenges exsists
+     * @return a collection in the form of an arraylist
      */
     public Collection getAllChallenge() {
 
         String sqlQuery = ("SELECT * FROM `Challenge`");
         Collection<Challenge> challengeCollection = new ArrayList<>();
-        challengeCollection.clear();
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
@@ -69,12 +71,14 @@ public class DBManagement {
     }
 
     /**
-    a method to collect a single challenge from the database based on the challenge id nummer, creates that challenge and
-    returns it
-    will return null if challenge does not exsists
+     *     a method to collect a single challenge from the database based on the challenge id nummer, creates that challenge and
+     *     returns it
+     *     will return null if challenge does not exsists
+     * @param challengeIDInput the ID of the challenge to be retrived.
+     * @return returns a challenge object if found in database otherwise an empty object
      */
-    public Challenge getOneChallenge(int i) {
-        String sqlQuery = ("SELECT " + i + " FROM `Challenge`");
+    public Challenge getOneChallenge(int challengeIDInput) {
+        String sqlQuery = ("SELECT " + challengeIDInput + " FROM `Challenge`");
         Challenge challenge = null;
         try {
             crs = ctpdb.getData(sqlQuery);
@@ -97,14 +101,16 @@ public class DBManagement {
         } else return null;
     }
 
+    /**
+     *         a method to collect all outdoorGyms from the database and returns those objects as a collection
+     *         will return empthy list if no outdoorgyms exsists
+     * @return collection of outdoorgyms
+     */
     public Collection getAllOutdoorGyms() {
-        /**
-        a method to collect all outdoorGyms from the database and returns those objects as a collection
-        will return empthy list if no outdoorgyms exsists
-         */
         Collection<OutdoorGym> outdoorGymCollection = new ArrayList<>();
-        outdoorGymCollection.clear();
-        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId");
+        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot, Location WHERE " +
+                "Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId AND " +
+                "Workoutspot.WorkoutSpotId = Location.WorkoutSpotID");
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
@@ -124,17 +130,21 @@ public class DBManagement {
     }
 
     /**
-    this is a method to collect a single outdoorGym from the database and return that object
-    will return null if outdoorgym does not exsists
+     *     this is a method to collect a single outdoorGym from the database and return that object
+     *     will return null if outdoorgym does not exsists
+     * @param workoutSpotIdInput the primarykey of the workoutSpot to be found
+     * @return returns the outdoorgym object
      */
-    public OutdoorGym getOneOutdoorGym(int i) {
+    public OutdoorGym getOneOutdoorGym(int workoutSpotIdInput) {
 
         String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId" +
-                "AND OutdoorGymID = " + i);
+                "AND WorkoutSpot.WorkoutSpotId = " + workoutSpotIdInput
+                + " AND Workoutspot.WorkoutSpotId = Location.WorkoutSpotID");
         OutdoorGym outdoorGym = null;
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
+                int workoutSpotId = crs.getInt("WorkoutSpotId");
                 String gymName = crs.getString("WorkoutSpotName");
                 int longitude = crs.getInt("Longitude");
                 int latitude = crs.getInt("Latitude");
@@ -151,12 +161,13 @@ public class DBManagement {
         } else return null;
     }
 
+    /**
+     *         method to get all users from database and create user objects, and returns those objects in a colletion
+     *         will return empthy collection if no users in database
+     * @return returns a collection of all users.
+     */
     public Collection getAllUsers() {
 
-        /**
-        method to get all users from database and create user objects, and returns those objects in a colletion
-        will return empthy collection if no users in database
-         */
         String sqlQuery = ("SELECT * FROM `User`");
         Collection<User> userCollection = new ArrayList<>();
         userCollection.clear();
@@ -181,8 +192,10 @@ public class DBManagement {
     }
 
     /**
-    a method to get a singel user from the database
-    will return null if user does not exsists
+     *     a method to get a singel user from the database
+     *     will return null if user does not exsists
+     * @param userNameInput name of the user to find
+     * @return returns that user
      */
     public User getOneUser(String userNameInput) {
 
@@ -207,9 +220,10 @@ public class DBManagement {
     }
 
     /**
-    this is a method to collect all participations from database, create participation object and return those object in
-    a list.
-    will return empty list if no participations are in database.
+     *     this is a method to collect all participations from database, create participation object and return those object in
+     *     a list.
+     *     will return empty list if no participations are in database
+     * @return will return a collection of participations
      */
     public Collection getAllParticipations() {
         String sqlQuery = ("SELECT * FROM Participation");
@@ -285,20 +299,55 @@ public class DBManagement {
     }
 
     /**
-    this is a method for adding a new user to the database. will return true and false depending on if the adding was
-    successfull, if a fail it will automaticly retrive the errormessage and hold it if its needed.
+     *     this is a method for adding a new user to the database. will return true and false depending on if the adding was
+     *     successfull, if a fail it will automaticly retrive the errormessage and hold it if its needed.
+     * @param userName the username of the user to be added
+     * @param firstName firstname of the user
+     * @param lastName lastname of the user
+     * @param Email email adress of the user
+     * @return boolean true or false depending on result
      */
     public boolean addUser(String userName, String firstName, String lastName, String Email) {
         String sqlQuery = ("INSERT INTO User SET UserName = '" + userName + "', FirstName = '"
                 + firstName + "', LastName = '" + lastName + "', Email ='" + Email + "'");
-        boolean success = ctpdb.insertData(sqlQuery);
-        if (!success) {
-            errorMessage = ctpdb.getErrorMessage();
-        }
+            boolean success = ctpdb.insertData(sqlQuery);
+            if (!success) {
+                errorMessage = ctpdb.getErrorMessage();
+            }
         return success;
     }
+
     /**
-    a method for forwarding the error message so it can be used if needed
+     * this is a method for storing a new outdoorGym in the database. it inserts into 3 different tables and uses
+     * the primary key generated in the first table as primary key on the other 2
+     * @param name the name of the outdoorGym, taken from stockholm API
+     * @param description   the description of the outdoorGym, taken from stockholm API
+     * @param longitude the longitude of the outdoorGym, taken from stockholm API
+     * @param latitude the latitude of the outdoorGym, taken from stockholm API
+     * @return returns a boolean true if all went fine, will return false if not.
+     */
+
+    public boolean addOutdoorGym(String name, String description, int longitude, int latitude ){
+        String sqlQuery = ("INSERT INTO WorkoutSpot SET WorkoutSpotName = '"+ name +" , HasChallenge = false");
+        int workoutSpotID = ctpdb.addAndReturnIncrementValue(sqlQuery);
+        sqlQuery = ("INSERT INTO OutdoorGym SET WorkoutSpotId = '"+workoutSpotID+ ", outdoorGymDesc = '"+ description+"'");
+        boolean successOnOutdoorgym = ctpdb.insertData(sqlQuery);
+        if(!successOnOutdoorgym){
+            errorMessage = ctpdb.getErrorMessage();
+            return false;
+        }
+        sqlQuery = ("INSERT INTO Location SET WorkoutSpotId = '"+workoutSpotID+" , Longitude = '"
+        +longitude+ ", Latitude = '"+latitude+"' ");
+        Boolean successOnLocation = ctpdb.insertData(sqlQuery);
+        if(!successOnLocation){
+            errorMessage = ctpdb.getErrorMessage();
+            return false;
+        }return true;
+    }
+
+    /**
+     * a method for forwarding the error message so it can be used if needed
+     * @return the error message if SQL exception has been thrown when inserting to database
      */
     public String getErrorMessage() {
         return errorMessage;

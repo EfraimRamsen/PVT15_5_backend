@@ -9,17 +9,17 @@ import java.sql.Statement;
 import java.sql.*;
 
 /**
-this is a class to handle the connection to a database. it takes a SQL query as input and creates a connection.
-returns the result in a cachedrowset that will survive the connection.
-
-Comments are above the code
-
-REMEMBER
-close connection or crash
-close statement or crash
-
-@author Michel
-*/
+ * this is a class to handle the connection to a database. it takes a SQL query as input and creates a connection.
+ * returns the result in a cachedrowset that will survive the connection.
+ * <p>
+ * Comments are above the code
+ * <p>
+ * REMEMBER
+ * close connection or crash
+ * close statement or crash
+ *
+ * @author Michel
+ */
 public class ConnectionToPasiDB {
 
     private final String driverName = ("org.mariadb.jdbc.Driver");
@@ -28,6 +28,7 @@ public class ConnectionToPasiDB {
     private final String password = ("aijee1mau7Ip");
 
     private String errorMessage;
+
     /*
     method for creating connection to retrive data, passes the cachedrowset to the databasemanagement class
      */
@@ -83,11 +84,40 @@ public class ConnectionToPasiDB {
             //gets sqlexception into string
             errorMessage = ex.getMessage();
             success = false;
-        }return success;
+        }
+        return success;
     }
 
-    //method for retriving the error message if it is needed.
-    public String getErrorMessage(){
-        return errorMessage;
+
+    /**
+    this is a method for inserting a new workoutSpot into the database and returns that workoutSpotID
+     that ID is needed to insert the location and outdoorGym as if is the PrimaryKey for those tables
+     */
+    public int addAndReturnIncrementValue(String sqlQuery) {
+        int i = 0;
+        try {
+            //finds the driver
+            Class.forName(driverName);
+            //creates connection
+            Connection con = DriverManager.getConnection(urlName, databaseName, password);
+            //creates statement
+            Statement stmt = con.createStatement();
+            //execution of the statement. nothing gets returned as exception will be trown if something goes wrong
+            ResultSet rs = stmt.executeQuery(sqlQuery);
+            while (rs.next()) {
+                rs.last();
+                i = rs.getInt("WorkoutSpotId");
+            }
+            stmt.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return i;
     }
-}
+        //method for retriving the error message if it is needed.
+        public String getErrorMessage () {
+            return errorMessage;
+        }
+    }
