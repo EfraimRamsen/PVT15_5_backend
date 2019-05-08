@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
 
-
+/*
         DBManagement dbm = new DBManagement();
         String userName = ("nills");
         boolean success = dbm.addParticipation(4, userName);
@@ -21,6 +21,8 @@ public class Main {
         }
         if (!success) {
             System.out.println(dbm.getErrorMessage());
+
+ */
 
     }
     /*
@@ -47,7 +49,7 @@ public class Main {
 
 
     }
-}
+
 
 //spring demo code. delete after demo
         /*

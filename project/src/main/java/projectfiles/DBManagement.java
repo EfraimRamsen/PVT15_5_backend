@@ -114,13 +114,14 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
+                int workspotid = crs.getInt("WorkoutSpotId");
                 String gymName = crs.getString("WorkoutSpotName");
                 int longitude = crs.getInt("Longitude");
                 int latitude = crs.getInt("Latitude");
                 boolean hasChallenge = crs.getBoolean("HasChallenge");
                 String gymDesctiption = crs.getString("outdoorGymDesc");
                 Location location = new Location(longitude, latitude);
-                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
+                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, workspotid, gymDesctiption);
                 outdoorGymCollection.add(outdoorGym);
             }
         } catch (SQLException e) {
@@ -151,7 +152,7 @@ public class DBManagement {
                 boolean hasChallenge = crs.getBoolean("HasChallenge");
                 String gymDesctiption = crs.getString("outdoorGymDesc");
                 Location location = new Location(longitude, latitude);
-                outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
+                outdoorGym = new OutdoorGym(location, gymName,workoutSpotId, gymDesctiption);
             }
         } catch (SQLException e) {
             e.printStackTrace();
