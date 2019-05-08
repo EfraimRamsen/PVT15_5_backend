@@ -114,14 +114,7 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                int workspotid = crs.getInt("WorkoutSpotId");
-                String gymName = crs.getString("WorkoutSpotName");
-                int longitude = crs.getInt("Longitude");
-                int latitude = crs.getInt("Latitude");
-                boolean hasChallenge = crs.getBoolean("HasChallenge");
-                String gymDesctiption = crs.getString("outdoorGymDesc");
-                Location location = new Location(longitude, latitude);
-                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, workspotid, gymDesctiption);
+                OutdoorGym outdoorGym = buildOfOutdoorGym(crs);
                 outdoorGymCollection.add(outdoorGym);
             }
         } catch (SQLException e) {
@@ -138,21 +131,14 @@ public class DBManagement {
      */
     public OutdoorGym getOneOutdoorGym(int workoutSpotIdInput) {
 
-        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId" +
-                "AND WorkoutSpot.WorkoutSpotId = " + workoutSpotIdInput
+        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot, Location WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId " +
+                "AND Workoutspot.WorkoutSpotId = " + workoutSpotIdInput
                 + " AND Workoutspot.WorkoutSpotId = Location.WorkoutSpotID");
         OutdoorGym outdoorGym = null;
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                int workoutSpotId = crs.getInt("WorkoutSpotId");
-                String gymName = crs.getString("WorkoutSpotName");
-                int longitude = crs.getInt("Longitude");
-                int latitude = crs.getInt("Latitude");
-                boolean hasChallenge = crs.getBoolean("HasChallenge");
-                String gymDesctiption = crs.getString("outdoorGymDesc");
-                Location location = new Location(longitude, latitude);
-                outdoorGym = new OutdoorGym(location, gymName,workoutSpotId, gymDesctiption);
+                outdoorGym = buildOfOutdoorGym(crs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,6 +146,28 @@ public class DBManagement {
         if (outdoorGym != null) {
             return outdoorGym;
         } else return null;
+    }
+
+    /**
+     * private method to create outdoorgyms in an attempt to redude code
+     * @param crs input
+     * @return outdoorgym
+     */
+    private OutdoorGym buildOfOutdoorGym(CachedRowSet crs){
+        OutdoorGym outdoorGym = null;
+        try {
+            int workoutSpotId = crs.getInt("WorkoutSpotId");
+            String gymName = crs.getString("WorkoutSpotName");
+            int longitude = crs.getInt("Longitude");
+            int latitude = crs.getInt("Latitude");
+            boolean hasChallenge = crs.getBoolean("HasChallenge");
+            String gymDesctiption = crs.getString("outdoorGymDesc");
+            Location location = new Location(longitude, latitude);
+            outdoorGym = new OutdoorGym(location, gymName, workoutSpotId, gymDesctiption);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return outdoorGym;
     }
 
     /**

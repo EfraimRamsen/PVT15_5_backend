@@ -21,18 +21,13 @@ public class Main {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
 
-/*
+
         DBManagement dbm = new DBManagement();
         String userName = ("nills");
-        boolean success = dbm.addParticipation(4, userName);
-        if (success) {
+        OutdoorGym success = dbm.getOneOutdoorGym(1);
+        if (success == null) {
             System.out.println(userName+ " has been added to challenge");
         }
-        if (!success) {
-            System.out.println(dbm.getErrorMessage());
-
- */
-
     }
 
     @RestController
