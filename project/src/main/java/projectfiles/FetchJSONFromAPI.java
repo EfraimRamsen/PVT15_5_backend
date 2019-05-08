@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class FetchJSONFromAPI{
-	HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
+	private HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
 
 	public void parse(){
 		try {
@@ -40,6 +40,20 @@ public class FetchJSONFromAPI{
 
 	public void parseGym(int i, Location position, String gymName, String gymDescription){
 		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,gymDescription));
+
+		System.out.println(
+				"i: "+ i +
+				"\ngymName: " + gymName +
+				"\ngymDescription: " + gymDescription +
+				"\ngymLocation: " + position +
+						"\n\n"
+					);
 	}
+
+	public HashMap<Integer,OutdoorGym> getAllOutdoorGyms(){
+		parse();
+		return outdoorGymHashMap;
+	}
+
 
 }
