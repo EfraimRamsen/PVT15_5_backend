@@ -346,6 +346,27 @@ public class DBManagement {
     }
 
     /**
+     *
+     * @param desc decription of challenge
+     * @param name name of challenge
+     * @param time time of challange
+     * @param date date of challege
+     * @param workoutSpotID at what location is the challenge
+     * @return boolean true of false if successfly stored in database
+     */
+
+    public boolean addChallenge(String desc, String name, Time time, Date date, int workoutSpotID){
+        String sqlQuery = ("INSERT INTO Challenge SET WorkoutSpotid = '"+ workoutSpotID
+                +" , ChallengeName = '"+name+"' , Time = '"+time+"' , Date = '"+date+
+                "' , Description = '"+desc+"' , Participants = '0'");
+        boolean success = ctpdb.insertData(sqlQuery);
+        if (!success) {
+            errorMessage = ctpdb.getErrorMessage();
+        }
+        return success;
+    }
+
+    /**
      * a method for forwarding the error message so it can be used if needed
      * @return the error message if SQL exception has been thrown when inserting to database
      */
