@@ -1,11 +1,14 @@
 package projectfiles;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Time;
@@ -31,18 +34,22 @@ public class Main {
  */
 
     }
+
     @RestController
     public class HelloJSONRestController{
         @CrossOrigin
-        @RequestMapping(value = "/getGym", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-        public OutdoorGym response(){
+        @ResponseBody@RequestMapping(value = "/challenge/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        public OutdoorGym response(@RequestBody int gymID){
 
-            int outdoorGymID = 1;
+            int outdoorGymID = gymID;
             DBManagement dbm = new DBManagement();
             OutdoorGym gym = dbm.getOneOutdoorGym(outdoorGymID);
+
             return gym;
         }
     }
+
+
     /*
         long miliseconds = System.currentTimeMillis();
         Time time = new java.sql.Time(miliseconds);
