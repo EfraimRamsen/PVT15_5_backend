@@ -29,8 +29,10 @@ public class ConnectionToPasiDB {
 
     private String errorMessage;
 
-    /*
-    method for creating connection to retrive data, passes the cachedrowset to the databasemanagement class
+    /**
+     * method for creating connection to retrive data, passes the cachedrowset to the databasemanagement class
+     * @param sqlQuery query to be executed on the database
+     * @return the results in the form of a table
      */
     public CachedRowSet getData(String sqlQuery) {
         CachedRowSet crs = null;
@@ -57,9 +59,11 @@ public class ConnectionToPasiDB {
         return crs;
     }
 
-    /*
-    method for inserting data into the database returns a boolean, true if all ok, false if all not ok, also takes
-    sql exception and stores in String, basiclly the error message to why and what went wrong.
+    /**
+     *     method for inserting data into the database returns a boolean, true if all ok, false if all not ok, also takes
+     *     sql exception and stores in String, basiclly the error message to why and what went wrong.
+     * @param sqlQuery query to be executed on the database
+     * @return a true or false walue depending on success or not
      */
 
     public Boolean insertData(String sqlQuery) {
@@ -90,8 +94,10 @@ public class ConnectionToPasiDB {
 
 
     /**
-    this is a method for inserting a new workoutSpot into the database and returns that workoutSpotID
-     that ID is needed to insert the location and outdoorGym as if is the PrimaryKey for those tables
+     *     this is a method for inserting a new workoutSpot into the database and returns that workoutSpotID
+     *      that ID is needed to insert the location and outdoorGym as if is the PrimaryKey for those tables
+     * @param sqlQuery query to be executed on the database
+     * @return the ID nummer (primary key) of the newly created row
      */
     public int addAndReturnIncrementValue(String sqlQuery) {
         int i = 0;
@@ -116,8 +122,12 @@ public class ConnectionToPasiDB {
             e.printStackTrace();
         }return i;
     }
-        //method for retriving the error message if it is needed.
-        public String getErrorMessage () {
+
+    /**
+     * method for retriving the error message if it is needed.
+     * @return exception in the form of a string.
+     */
+    public String getErrorMessage () {
             return errorMessage;
         }
     }
