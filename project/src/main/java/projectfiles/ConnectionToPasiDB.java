@@ -52,8 +52,10 @@ public class ConnectionToPasiDB {
             con.close();
             //handles errors, dont know why printStackTrace
         } catch (ClassNotFoundException e) {
+            errorMessage = e.getMessage();
             e.printStackTrace();
         } catch (SQLException e) {
+            errorMessage = e.getMessage();
             e.printStackTrace();
         }
         return crs;
@@ -82,6 +84,7 @@ public class ConnectionToPasiDB {
             con.close();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
+            errorMessage = ex.getMessage();
             success = false;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -117,8 +120,10 @@ public class ConnectionToPasiDB {
             stmt.close();
             con.close();
         } catch (ClassNotFoundException e) {
+            errorMessage = e.getMessage();
             e.printStackTrace();
         } catch (SQLException e) {
+            errorMessage = e.getMessage();
             e.printStackTrace();
         }return i;
     }
