@@ -105,7 +105,6 @@ public class ConnectionToPasiDB {
     public int addAndReturnIncrementValue(String sqlQuery) {
         int i = 0;
         try {
-            System.out.println(i);
             //finds the driver
             Class.forName(driverName);
             //creates connection
@@ -115,10 +114,8 @@ public class ConnectionToPasiDB {
             //execution of the statement and returns the generated keys in the resultSet
             pstm.execute();
             ResultSet rs = pstm.getGeneratedKeys();
-            System.out.println(i);
             while (rs.next()) {
                 i = rs.getInt("WorkoutSpotId");
-                System.out.println(i);
             }
             pstm.close();
             con.close();
