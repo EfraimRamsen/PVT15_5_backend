@@ -1,5 +1,11 @@
 package projectfiles;
 
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Time;
@@ -24,6 +30,18 @@ public class Main {
 
  */
 
+    }
+    @RestController
+    public class HelloJSONRestController{
+        @CrossOrigin
+        @RequestMapping(value = "/getGym", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        public OutdoorGym response(){
+
+            int outdoorGymID = 1;
+            DBManagement dbm = new DBManagement();
+            OutdoorGym gym = dbm.getOneOutdoorGym(outdoorGymID);
+            return gym;
+        }
     }
     /*
         long miliseconds = System.currentTimeMillis();
