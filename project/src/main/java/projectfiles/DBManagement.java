@@ -1,5 +1,7 @@
 package projectfiles;
 
+import sun.security.util.Cache;
+
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
 import java.sql.SQLException;
@@ -9,9 +11,9 @@ import java.util.Collection;
 /**
  * this is a class to handle all database management. instead of having to know every class that does one thing to the database
  * we got 1 class that has metods that does those things. one object to use methods on instead of 20 different classes to handle.
- *
+ * <p>
  * Comments are above the code it refers to
- *
+ * <p>
  * METHODS SO FAR
  * getAllChallenge
  * getOneChallenge
@@ -27,7 +29,7 @@ import java.util.Collection;
  * addNewOutdoorGym
  * addNewChallenge
  * addNewParticipation
- *
+ * <p>
  * TO FIX
  * userBuilder
  * user creation
@@ -194,19 +196,11 @@ public class DBManagement {
         String sqlQuery = ("SELECT * FROM `User`");
         Collection<User> userCollection = new ArrayList<>();
         userCollection.clear();
-
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-
-                String userName = crs.getString("UserName");
-                String firstName = crs.getString("FirstName");
-                String lastName = crs.getString("LastName");
-                String email = crs.getString("E-Mail");
-
-                //TODO user object needs fixing with firstName, lastName and E-Mail, password should not be stored in user object
-                //User user = new User(userName, );
-                //userCollection.add(user);
+                User user = userBuilder(crs);
+                userCollection.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -228,12 +222,7 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String userName = crs.getString("UserName");
-                String firstName = crs.getString("FirstName");
-                String lastName = crs.getString("LastName");
-                String email = crs.getString("E-Mail");
-                //TODO once User class is fixed, fix this
-                //user = new User(userName, firstName, lastName, email);
+                user = userBuilder(crs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -243,12 +232,33 @@ public class DBManagement {
         } else return null;
     }
 
+    /**
+     * method for creating user. takes 1 row from table and transforms that into a ser object.
+     *
+     * @param crs 1 row from the table
+     * @return a user object
+     */
+    public User userBuilder(CachedRowSet crs) {
+        User user = null;
+        try {
+            int userId = crs.getInt("UserID");
+            String userName = crs.getString("UserName");
+            String firstName = crs.getString("FirstName");
+            String lastName = crs.getString("LastName");
+            String email = crs.getString("E-Mail");
+            user = new User(userName, userId, firstName, lastName, email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 
     /**
      * this method retrives participations from the database, if null on username and 0 on challengeID it will retrive
      * ALL participations, otherwise it will get either all participations connected to a user or all participations
      * connected to a challenge. returns participation objects in a collection
-     * @param userName name of user
+     *
+     * @param userName    name of user
      * @param challengeID ID of the challenge
      * @return a list of the participations
      */
@@ -256,11 +266,11 @@ public class DBManagement {
         Participation participation = null;
         String sqlQuery = null;
         Collection<Participation> participationCollection = new ArrayList<>();
-        if(challengeID != 0){
-            sqlQuery = ("SELECT * FROM participation WHERE ChallengeID = "+challengeID);
-        }else if (!userName.equals(null)){
-            sqlQuery = ("SELECT * FROM participation WHERE UserName ="+userName);
-        } else{
+        if (challengeID != 0) {
+            sqlQuery = ("SELECT * FROM participation WHERE ChallengeID = " + challengeID);
+        } else if (!userName.equals(null)) {
+            sqlQuery = ("SELECT * FROM participation WHERE UserName =" + userName);
+        } else {
             sqlQuery = ("SELECT * FROM Participation");
         }
         crs = ctpdb.getData(sqlQuery);
@@ -272,7 +282,8 @@ public class DBManagement {
         } catch (SQLException e) {
             e.printStackTrace();
             errorMessage = e.getMessage();
-        } return participationCollection;
+        }
+        return participationCollection;
     }
 
 
