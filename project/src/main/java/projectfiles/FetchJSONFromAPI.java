@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class FetchJSONFromAPI{
 	private HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
-
+	private String uniqueId = "234oij-234-234234 (test)";
 	/**
 	 * Fetches a list of all outdoor gyms in Stockholm and loops through it to create
 	 * OutdoorGym objects that are stored in the outdoorGymHashmap.
@@ -35,7 +35,7 @@ public class FetchJSONFromAPI{
 				String gymName = rootAsArray.get(i).getAsJsonObject().get("Name").getAsString();
 				Location l = parseLocation(position);
 				String gymDescription = "This is gym no. " + i; //TODO Get real description from API
-				parseGym(i,l,gymName,gymDescription);
+				parseGym(i, l, gymName, uniqueId, gymDescription);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,14 +62,15 @@ public class FetchJSONFromAPI{
 	 * @param gymName
 	 * @param gymDescription
 	 */
-	public void parseGym(int i, Location position, String gymName, String gymDescription){
-		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,i,gymDescription));
+	public void parseGym(int i, Location position, String gymName, String uniqueId, String gymDescription){
+		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,i, uniqueId, gymDescription));
 
 		//TEST
 		System.out.println(
 				"\ngymLocation: " + position +
 				"\ngymName: " + gymName +
 				"\ngymId: "+ i +
+				"\nuniqueId: " + uniqueId +
 				"\ngymDescription: " + gymDescription +
 						"\n"
 					);

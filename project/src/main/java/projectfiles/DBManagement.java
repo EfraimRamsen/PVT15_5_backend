@@ -168,6 +168,7 @@ public class DBManagement {
      */
     private OutdoorGym buildOfOutdoorGym(CachedRowSet crs) {
         OutdoorGym outdoorGym = null;
+        String uniqueIdTemp = "123-123123-asdasd (placeholder)";
         try {
             int workoutSpotId = crs.getInt("WorkoutSpotId");
             String gymName = crs.getString("WorkoutSpotName");
@@ -176,7 +177,7 @@ public class DBManagement {
             boolean hasChallenge = crs.getBoolean("HasChallenge");
             String gymDesctiption = crs.getString("outdoorGymDesc");
             Location location = new Location(longitude, latitude);
-            outdoorGym = new OutdoorGym(location, gymName, workoutSpotId, gymDesctiption);
+            outdoorGym = new OutdoorGym(location, gymName, workoutSpotId, uniqueIdTemp, gymDesctiption);
         } catch (SQLException e) {
             e.printStackTrace();
         }

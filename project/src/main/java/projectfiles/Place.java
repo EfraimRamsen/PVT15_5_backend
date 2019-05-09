@@ -7,14 +7,15 @@ import java.util.ArrayList;
  */
 public abstract class Place {
     Location location;
-    String name;
+    String name, uniqueId;
     int id;
     ArrayList<Challenge> challengeList = new ArrayList<>();
 
-    public Place(Location location, String name, int id){
+    public Place(Location location, String name, int id, String uniqueId){
         this.location = location;
         this.name = name;
         this.id =  id;
+        this.uniqueId = uniqueId;
     }
 
     public void addChallange(Challenge newChallenge){
