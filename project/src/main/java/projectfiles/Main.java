@@ -24,10 +24,9 @@ public class Main {
 
         DBManagement dbm = new DBManagement();
         String userName = ("nills");
-        OutdoorGym success = dbm.getOneOutdoorGym(1);
-        if (success == null) {
-            System.out.println(userName+ " has been added to challenge");
-        }
+        Collection<Challenge> challengeCollection = dbm.getAllChallenge();
+
+
     }
 
     @RestController

@@ -21,14 +21,16 @@ import java.util.Collection;
  * getOneUser
  * addNewUser
  * addNewOutdoorGym
+ * addNewChallenge
+ * addNewParticipation
  *
  * TO FIX
  * getAllParticipations
  * getOneParticipation
  *
  * TO DO
- * addNewChallenge
- * addNewParticipation
+ *
+ *
  *
  * @author Michel
  */
@@ -52,17 +54,8 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String challengeName = crs.getString("ChallengeName");
-                String challengeDesc = crs.getString("Description");
-                int atLocationId = crs.getInt("WorkoutSpotID");
-                int challengeID = crs.getInt("ChallengeID");
-                int participants = crs.getInt("Participants");
-                Time time = crs.getTime("Time");
-                Date date = crs.getDate("Date");
-
-                //TODO these lines when challenge object is complete with proper constructor
-                //Challenge challenge = new Challenge();
-                //challengeCollection.add(challenge);
+                Challenge challenge = challengeBuilder(crs);
+                challengeCollection.add(challenge);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,15 +76,7 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String challengeName = crs.getString("ChallengeName");
-                String challengeDesc = crs.getString("Description");
-                int atLocationId = crs.getInt("WorkoutSpotID");
-                int challengeID = crs.getInt("ChallengeID");
-                int participants = crs.getInt("Participants");
-                Time time = crs.getTime("Time");
-                Date date = crs.getDate("Date");
-                //TODO challenge needs to be fixed with proper constructor
-                //challenge = new Challenge();
+                challenge = challengeBuilder(crs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,6 +86,25 @@ public class DBManagement {
         } else return null;
     }
 
+    /**
+     * Support method for building challenge objects.
+     * @param crs a row from the table.
+     * @return challenge object
+     */
+    private Challenge challengeBuilder(CachedRowSet crs){
+        Challenge challenge = null;
+        try {
+            String challengeName = crs.getString("ChallengeName");
+            String challengeDesc = crs.getString("Description");
+            int workoutSpotID = crs.getInt("WorkoutSpotID");
+            int challengeID = crs.getInt("ChallengeID");
+            int numberOfParticipants = crs.getInt("Participants");
+            java.util.Date date = new Date(crs.getDate("Date").getTime());
+            challenge = new Challenge(challengeName, numberOfParticipants, date, challengeDesc, challengeID, workoutSpotID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return challenge;
+    }
     /**
      *         a method to collect all outdoorGyms from the database and returns those objects as a collection
      *         will return empthy list if no outdoorgyms exsists

@@ -6,18 +6,21 @@ import java.util.*;
  */
 public class Challenge {
 	private String name;
-	private int numberOfParticipants;
-	private String level; //TODO bestämma ifall det här ska vara en String eller kanske en egen klass?
-    private String workoutType;
+	private int numberOfParticipants, challengeID, workoutSpotID;
+	//private String level; //TODO bestämma ifall det här ska vara en String eller kanske en egen klass? //Modified by michel
+    //private String workoutType; //Modified by michel
 	private Date eventTimeAndDate = new Date(); //Valde att enbart göra en instans av datum och inte en separat för tid eftersom att tid finns inbyggt i datum-klassen
 	private String description; //TODO fixa den här
-    private ArrayList<User> participantList = new ArrayList<>();
+    //private ArrayList<User> participantList = new ArrayList<>(); //modified by Michel
 
-	public Challenge(String name, int numberOfParticipants, String level, String workoutType, Date eventTimeAndDate, String description){
+	public Challenge(String name, int numberOfParticipants, Date eventTimeAndDate, String description,
+					 int ChallengeID, int workoutspotID){
 		this.name = name;
 		this.numberOfParticipants = numberOfParticipants;
-		this.level = level;
-		this.workoutType = workoutType;
+		this.challengeID = challengeID;
+		this.workoutSpotID = workoutspotID;
+		//this.level = level; //modified by Michel
+		//this.workoutType = workoutType; //Modified by michel
 		this.eventTimeAndDate = eventTimeAndDate;
 		this.description = description;
 	}
