@@ -109,15 +109,15 @@ public class ConnectionToPasiDB {
             Class.forName(driverName);
             //creates connection
             Connection con = DriverManager.getConnection(urlName, databaseName, password);
-            //creates statement
-            Statement stmt = con.createStatement();
-            //execution of the statement. nothing gets returned as exception will be trown if something goes wrong
-            ResultSet rs = stmt.executeQuery(sqlQuery);
+            //creates a prepared statement
+            PreparedStatement pstm = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            //execution of the statement and returns the generated keys in the resultSet
+            pstm.execute();
+            ResultSet rs = pstm.getGeneratedKeys();
             while (rs.next()) {
-                rs.last();
                 i = rs.getInt("WorkoutSpotId");
             }
-            stmt.close();
+            pstm.close();
             con.close();
         } catch (ClassNotFoundException e) {
             errorMessage = e.getMessage();

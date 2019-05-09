@@ -6,8 +6,8 @@ package projectfiles;
 public class OutdoorGym extends Place{
     private String description;
 
-    public OutdoorGym(Location location, String name, String description){
-        super(location, name);
+    public OutdoorGym(Location location, String name, int id, String description){
+        super(location, name, id);
         this.description = description;
 
     }

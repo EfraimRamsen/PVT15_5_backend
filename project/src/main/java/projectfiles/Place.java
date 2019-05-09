@@ -8,11 +8,13 @@ import java.util.ArrayList;
 public abstract class Place {
     Location location;
     String name;
+    int id;
     ArrayList<Challenge> challengeList = new ArrayList<>();
 
-    public Place(Location location, String name){
+    public Place(Location location, String name, int id){
         this.location = location;
         this.name = name;
+        this.id =  id;
     }
 
     public void addChallange(Challenge newChallenge){

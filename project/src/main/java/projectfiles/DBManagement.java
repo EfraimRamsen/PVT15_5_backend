@@ -21,14 +21,16 @@ import java.util.Collection;
  * getOneUser
  * addNewUser
  * addNewOutdoorGym
+ * addNewChallenge
+ * addNewParticipation
  *
  * TO FIX
  * getAllParticipations
  * getOneParticipation
  *
  * TO DO
- * addNewChallenge
- * addNewParticipation
+ *
+ *
  *
  * @author Michel
  */
@@ -52,17 +54,8 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String challengeName = crs.getString("ChallengeName");
-                String challengeDesc = crs.getString("Description");
-                int atLocationId = crs.getInt("WorkoutSpotID");
-                int challengeID = crs.getInt("ChallengeID");
-                int participants = crs.getInt("Participants");
-                Time time = crs.getTime("Time");
-                Date date = crs.getDate("Date");
-
-                //TODO these lines when challenge object is complete with proper constructor
-                //Challenge challenge = new Challenge();
-                //challengeCollection.add(challenge);
+                Challenge challenge = challengeBuilder(crs);
+                challengeCollection.add(challenge);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,15 +76,7 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String challengeName = crs.getString("ChallengeName");
-                String challengeDesc = crs.getString("Description");
-                int atLocationId = crs.getInt("WorkoutSpotID");
-                int challengeID = crs.getInt("ChallengeID");
-                int participants = crs.getInt("Participants");
-                Time time = crs.getTime("Time");
-                Date date = crs.getDate("Date");
-                //TODO challenge needs to be fixed with proper constructor
-                //challenge = new Challenge();
+                challenge = challengeBuilder(crs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,6 +86,25 @@ public class DBManagement {
         } else return null;
     }
 
+    /**
+     * Support method for building challenge objects.
+     * @param crs a row from the table.
+     * @return challenge object
+     */
+    private Challenge challengeBuilder(CachedRowSet crs){
+        Challenge challenge = null;
+        try {
+            String challengeName = crs.getString("ChallengeName");
+            String challengeDesc = crs.getString("Description");
+            int workoutSpotID = crs.getInt("WorkoutSpotID");
+            int challengeID = crs.getInt("ChallengeID");
+            int numberOfParticipants = crs.getInt("Participants");
+            java.util.Date date = new Date(crs.getDate("Date").getTime());
+            challenge = new Challenge(challengeName, numberOfParticipants, date, challengeDesc, challengeID, workoutSpotID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return challenge;
+    }
     /**
      *         a method to collect all outdoorGyms from the database and returns those objects as a collection
      *         will return empthy list if no outdoorgyms exsists
@@ -114,13 +118,7 @@ public class DBManagement {
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                String gymName = crs.getString("WorkoutSpotName");
-                int longitude = crs.getInt("Longitude");
-                int latitude = crs.getInt("Latitude");
-                boolean hasChallenge = crs.getBoolean("HasChallenge");
-                String gymDesctiption = crs.getString("outdoorGymDesc");
-                Location location = new Location(longitude, latitude);
-                OutdoorGym outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
+                OutdoorGym outdoorGym = buildOfOutdoorGym(crs);
                 outdoorGymCollection.add(outdoorGym);
             }
         } catch (SQLException e) {
@@ -137,21 +135,14 @@ public class DBManagement {
      */
     public OutdoorGym getOneOutdoorGym(int workoutSpotIdInput) {
 
-        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId" +
-                "AND WorkoutSpot.WorkoutSpotId = " + workoutSpotIdInput
+        String sqlQuery = ("SELECT * FROM OutdoorGym, Workoutspot, Location WHERE Workoutspot.WorkoutSpotId = OutdoorGym.WorkoutSpotId " +
+                "AND Workoutspot.WorkoutSpotId = " + workoutSpotIdInput
                 + " AND Workoutspot.WorkoutSpotId = Location.WorkoutSpotID");
         OutdoorGym outdoorGym = null;
         try {
             crs = ctpdb.getData(sqlQuery);
             while (crs.next()) {
-                int workoutSpotId = crs.getInt("WorkoutSpotId");
-                String gymName = crs.getString("WorkoutSpotName");
-                int longitude = crs.getInt("Longitude");
-                int latitude = crs.getInt("Latitude");
-                boolean hasChallenge = crs.getBoolean("HasChallenge");
-                String gymDesctiption = crs.getString("outdoorGymDesc");
-                Location location = new Location(longitude, latitude);
-                outdoorGym = new OutdoorGym(location, gymName, gymDesctiption);
+                outdoorGym = buildOfOutdoorGym(crs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,6 +150,28 @@ public class DBManagement {
         if (outdoorGym != null) {
             return outdoorGym;
         } else return null;
+    }
+
+    /**
+     * private method to create outdoorgyms in an attempt to redude code
+     * @param crs input
+     * @return outdoorgym
+     */
+    private OutdoorGym buildOfOutdoorGym(CachedRowSet crs){
+        OutdoorGym outdoorGym = null;
+        try {
+            int workoutSpotId = crs.getInt("WorkoutSpotId");
+            String gymName = crs.getString("WorkoutSpotName");
+            int longitude = crs.getInt("Longitude");
+            int latitude = crs.getInt("Latitude");
+            boolean hasChallenge = crs.getBoolean("HasChallenge");
+            String gymDesctiption = crs.getString("outdoorGymDesc");
+            Location location = new Location(longitude, latitude);
+            outdoorGym = new OutdoorGym(location, gymName, workoutSpotId, gymDesctiption);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return outdoorGym;
     }
 
     /**
@@ -327,17 +340,18 @@ public class DBManagement {
      * @return returns a boolean true if all went fine, will return false if not.
      */
 
-    public boolean addOutdoorGym(String name, String description, int longitude, int latitude ){
-        String sqlQuery = ("INSERT INTO WorkoutSpot SET WorkoutSpotName = '"+ name +" , HasChallenge = false");
+    public boolean addOutdoorGym(String name, String description, int longitude, int latitude, String apiKey){
+        String sqlQuery = ("INSERT INTO Workoutspot SET WorkoutSpotName = '"+ name +"' , HasChallenge = false");
         int workoutSpotID = ctpdb.addAndReturnIncrementValue(sqlQuery);
-        sqlQuery = ("INSERT INTO OutdoorGym SET WorkoutSpotId = '"+workoutSpotID+ ", outdoorGymDesc = '"+ description+"'");
+        sqlQuery = ("INSERT INTO OutdoorGym SET WorkoutSpotId = '"+workoutSpotID+ "', outdoorGymDesc = '"+ description+"'" +
+                "StockholmStadAPIKey = '"+apiKey+"'");
         boolean successOnOutdoorgym = ctpdb.insertData(sqlQuery);
         if(!successOnOutdoorgym){
             errorMessage = ctpdb.getErrorMessage();
             return false;
         }
-        sqlQuery = ("INSERT INTO Location SET WorkoutSpotId = '"+workoutSpotID+" , Longitude = '"
-        +longitude+ ", Latitude = '"+latitude+"' ");
+        sqlQuery = ("INSERT INTO Location SET WorkoutSpotId = '"+workoutSpotID+"' , Longitude = '"
+        +longitude+ "', Latitude = '"+latitude+"' ");
         Boolean successOnLocation = ctpdb.insertData(sqlQuery);
         if(!successOnLocation){
             errorMessage = ctpdb.getErrorMessage();
@@ -357,13 +371,28 @@ public class DBManagement {
 
     public boolean addChallenge(String desc, String name, Time time, Date date, int workoutSpotID){
         String sqlQuery = ("INSERT INTO Challenge SET WorkoutSpotid = '"+ workoutSpotID
-                +" , ChallengeName = '"+name+"' , Time = '"+time+"' , Date = '"+date+
+                +"' , ChallengeName = '"+name+"' , Time = '"+time+"' , Date = '"+date+
                 "' , Description = '"+desc+"' , Participants = '0'");
         boolean success = ctpdb.insertData(sqlQuery);
         if (!success) {
             errorMessage = ctpdb.getErrorMessage();
         }
         return success;
+    }
+
+    /**
+     * Method for adding a new participation to the database
+     * @param challengeID the primarykey of the challenge, and the identifier of the challenge
+     * @param userName a unique identifier for a user
+     * @return will return true if all went well, otherwise get the error message and store it and return false
+     */
+    public boolean addParticipation(int challengeID, String userName){
+        String sqlQuery = ("INSERT INTO Participation SET ChallengeID ='"+challengeID+"' , UserName = '"+userName+"'");
+        boolean success = ctpdb.insertData(sqlQuery);
+        if(!success){
+            errorMessage = ctpdb.getErrorMessage();
+            return false;
+        }return true;
     }
 
     /**
