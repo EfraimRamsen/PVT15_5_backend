@@ -26,6 +26,8 @@ public class Main {
         String userName = ("nills");
         Collection<Challenge> challengeCollection = dbm.getAllChallenge();
 
+        //TEST FetchJSONFromAPI (Print all gyms)
+//	    new FetchJSONFromAPI().parseFromAllOutdoorGyms();
 
     }
 

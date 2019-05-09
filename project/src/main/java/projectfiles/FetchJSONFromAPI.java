@@ -63,15 +63,15 @@ public class FetchJSONFromAPI{
 	 * @param gymDescription
 	 */
 	public void parseGym(int i, Location position, String gymName, String gymDescription){
-		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,gymDescription));
+		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,i,gymDescription));
 
 		//TEST
 		System.out.println(
-				"i: "+ i +
-				"\ngymName: " + gymName +
-				"\ngymDescription: " + gymDescription +
 				"\ngymLocation: " + position +
-						"\n\n"
+				"\ngymName: " + gymName +
+				"\ngymId: "+ i +
+				"\ngymDescription: " + gymDescription +
+						"\n"
 					);
 	}
 
