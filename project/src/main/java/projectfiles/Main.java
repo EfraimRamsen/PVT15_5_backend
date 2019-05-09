@@ -33,7 +33,7 @@ public class Main {
     @RestController
     public class HelloJSONRestController{
         @CrossOrigin
-        @ResponseBody@RequestMapping(value = "/challenge/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody@RequestMapping(value = "/outdoorgym/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
         public OutdoorGym response(@RequestBody int gymID){
 
             int outdoorGymID = gymID;
