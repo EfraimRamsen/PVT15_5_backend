@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.su.dsv.pvt</groupId>
-	<artifactId>helloworld</artifactId>
+	<artifactId>project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>helloworld</name>
+	<name>project</name>
 	<description>Demo project for Spring Boot</description>
     <packaging>war</packaging>
 
