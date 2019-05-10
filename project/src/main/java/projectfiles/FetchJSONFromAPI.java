@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class FetchJSONFromAPI{
 	private HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
-//	private String uniqueId = "234oij-234-234234 (test)";
+
 	/**
 	 * Fetches a list of all outdoor gyms in Stockholm and loops through it to create
 	 * OutdoorGym objects that are stored in the outdoorGymHashmap.
@@ -35,7 +35,7 @@ public class FetchJSONFromAPI{
 				String gymName = rootAsArray.get(i).getAsJsonObject().get("Name").getAsString();
 				String uniqueId = rootAsArray.get(i).getAsJsonObject().get("Id").getAsString();
 				Location l = parseLocation(position);
-				String gymDescription = "This is gym no. " + i; //TODO Get real description from API
+				String gymDescription = parseDescription(uniqueId);
 				parseGym(i, l, gymName, uniqueId, gymDescription);
 			}
 		} catch (IOException e) {
@@ -43,14 +43,36 @@ public class FetchJSONFromAPI{
 		}
 	}
 
-	/** ~~WORK IN PROGRESS!~~
-	 * Gå in i gruppen "Attributes"
-	 *
-	 * OM "Name" == "Introduktion"
-	 * Ta nästa "Value" som String description
-	 *
+	/**
+	 gör nytt element en nivå ner från root
+	 This is how the Json-object from the API can look (they have different amounts of objects in the Attributes array):
+ {
+	 0:
+	    Attributes[] * Den här vill vi åt * Den kommer ha flera objekt tex:
+			1: {...}
+			2: {...}
+			3: {...}
+			4: {
+				"Description" : null
+				"Group": "Beskrivning av enheten" <-- Group value has to be this
+				"GroupDescription": null,
+				"Id": "ShortDescription",
+				"Name": "Introduktion", <-- Name value has to be this
+We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskilt anpassat för seniorer i Tessinparkens norra del. Underlaget består av stenmjöl."
+				 }
+	        5: {...} etc.
+		 GeographicalAreas[]
+		 GeographicalPosition{}
+		 Id:
+		 Name:
+		 RelatedServiceUnits[]
+		 ServiceUnittypes[]
+		 TimeCreated:
+		 TimeUpdated:
+	 }
+
 	 * @param uniqueId
-	 * @return
+	 * @return description for the OutdoorGym with that uniqueId.
 	 */
 	public String parseDescription(String uniqueId){
 			String description = null;
@@ -61,9 +83,22 @@ public class FetchJSONFromAPI{
 			JsonParser parser = new JsonParser();
 			JsonElement rootElement = parser.parse(reader);
 			JsonArray rootAsArray = rootElement.getAsJsonArray();
-//			JsonArray attributesArray = rootAsArray.get(0);
+			JsonArray attributesArray = rootAsArray.getAsJsonArray().get(0).getAsJsonObject().get("Attributes").getAsJsonArray();
 
-			for(int i = 0; i < rootAsArray.size(); i++){
+			for (int i = 0; i < attributesArray.size(); i++){
+
+				String group = attributesArray.get(i).getAsJsonObject().get("Group").getAsString();
+				if(!group.equals("Beskrivning av enheten"))
+					continue;
+
+				String name = attributesArray.get(i).getAsJsonObject().get("Name").getAsString();
+				if(!name.equals("Introduktion"))
+					continue;
+
+				String value = attributesArray.get(i).getAsJsonObject().get("Value").getAsString();
+				description = value;
+				break;
+
 			}
 
 
