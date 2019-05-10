@@ -1,6 +1,9 @@
 package projectfiles;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,16 +19,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.*;
 import java.util.Iterator;
+@SpringBootApplication
+public class Main extends SpringBootServletInitializer {
 
-public class Main {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Main.class);
+    }
 
     public static void main(String args[]) throws IOException, URISyntaxException {
 
-
+/*
         DBManagement dbm = new DBManagement();
         String userName = ("nills");
         Collection<Challenge> challengeCollection = dbm.getAllChallenge();
-
+*/
         //TEST FetchJSONFromAPI (Print all gyms)
 //	    new FetchJSONFromAPI().parseFromAllOutdoorGyms();
 
