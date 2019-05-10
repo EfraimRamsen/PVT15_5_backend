@@ -1,6 +1,6 @@
 package projectfiles;
 
-import sun.security.util.Cache;
+
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
@@ -75,8 +75,8 @@ public class DBManagement {
      * @param challengeIDInput the ID of the challenge to be retrived.
      * @return returns a challenge object if found in database otherwise an empty object
      */
-    public Challenge getOneChallenge(int challengeIDInput) {
-        String sqlQuery = ("SELECT " + challengeIDInput + " FROM `Challenge`");
+    public Challenge getSpecificChallenge(int challengeIDInput) {
+        String sqlQuery = ("SELECT * FROM `Challenge` WHERE ChallengeID = '"+challengeIDInput+"' ");
         Challenge challenge = null;
         try {
             crs = ctpdb.getData(sqlQuery);
@@ -90,7 +90,20 @@ public class DBManagement {
             return challenge;
         } else return null;
     }
+    public Collection getOneChallengeAtSpot(int workoutspotID) {
+        String sqlQuery = ("SELECT * FROM `Challenge` WHERE WorkoutSpotId = '" + workoutspotID + "' ");
+        Collection<Challenge> challengeCollection = new ArrayList<>();
 
+        try {
+            crs = ctpdb.getData(sqlQuery);
+            while (crs.next()) {
+                Challenge challenge = challengeBuilder(crs);
+                challengeCollection.add(challenge);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return challengeCollection;
+    }
     /**
      * Support method for building challenge objects.
      *
