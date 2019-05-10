@@ -44,7 +44,8 @@ public class FetchJSONFromAPI{
 	}
 
 	/**
-	 gör nytt element en nivå ner från root
+	 Fetches the description for a unique OutdoorGym from the Stockholm API.
+
 	 This is how the Json-object from the API can look (they have different amounts of objects in the Attributes array):
  {
 	 0:
@@ -71,8 +72,9 @@ We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskil
 		 TimeUpdated:
 	 }
 
-	 * @param uniqueId
+	 * @param uniqueId Key for identifying a unique Place
 	 * @return description for the OutdoorGym with that uniqueId.
+	 * @author efraim
 	 */
 	public String parseDescription(String uniqueId){
 			String description = null;
@@ -95,8 +97,7 @@ We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskil
 				if(!name.equals("Introduktion"))
 					continue;
 
-				String value = attributesArray.get(i).getAsJsonObject().get("Value").getAsString();
-				description = value;
+				description = attributesArray.get(i).getAsJsonObject().get("Value").getAsString();
 				break;
 
 			}
@@ -111,7 +112,7 @@ We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskil
 	/**
 	 * Fetches the values from X & Y in the API and returns a Location object created from
 	 * those values.
-	 * @param position
+	 * @param position x,y
 	 * @return Location location
 	 */
 	public Location parseLocation(JsonObject position){
@@ -123,10 +124,10 @@ We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskil
 
 	/**
 	 * Creates a new OutdoorGym from the parameters and stores it in the outdoorGymHashMap
-	 * @param i
-	 * @param position
-	 * @param gymName
-	 * @param gymDescription
+	 * @param i index value
+	 * @param position Location with x,y
+	 * @param gymName Name
+	 * @param gymDescription Short description
 	 */
 	public void parseGym(int i, Location position, String gymName, String uniqueId, String gymDescription){
 		outdoorGymHashMap.put(i, new OutdoorGym(position,gymName,i, uniqueId, gymDescription));
