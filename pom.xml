@@ -102,6 +102,13 @@
                     <mainClass>${Main-class}</mainClass>
                     <layout>WAR</layout>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 		</plugins>
 	</build>
