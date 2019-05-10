@@ -49,7 +49,7 @@ public class FetchJSONFromAPI{
 	 This is how the Json-object from the API can look (they have different amounts of objects in the Attributes array):
  {
 	 0:
-	    Attributes[] * Den här vill vi åt * Den kommer ha flera objekt tex:
+	    Attributes[] <-- This is the array we need to look in.
 			1: {...}
 			2: {...}
 			3: {...}
@@ -101,7 +101,6 @@ We want this--> "Value": "Redskap för t.ex. styrke- och balansträning särskil
 				break;
 
 			}
-
 
 		} catch (IOException e) {
 			e.printStackTrace();
