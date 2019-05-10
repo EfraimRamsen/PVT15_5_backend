@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class FetchJSONFromAPI{
 	private HashMap<Integer, OutdoorGym> outdoorGymHashMap = new HashMap<>();
-	private String uniqueId = "234oij-234-234234 (test)";
+//	private String uniqueId = "234oij-234-234234 (test)";
 	/**
 	 * Fetches a list of all outdoor gyms in Stockholm and loops through it to create
 	 * OutdoorGym objects that are stored in the outdoorGymHashmap.
@@ -33,6 +33,7 @@ public class FetchJSONFromAPI{
 			for(int i = 0; i < rootAsArray.size(); i++){
 				JsonObject position = rootAsArray.get(i).getAsJsonObject().getAsJsonObject("GeographicalPosition");
 				String gymName = rootAsArray.get(i).getAsJsonObject().get("Name").getAsString();
+				String uniqueId = rootAsArray.get(i).getAsJsonObject().get("Id").getAsString();
 				Location l = parseLocation(position);
 				String gymDescription = "This is gym no. " + i; //TODO Get real description from API
 				parseGym(i, l, gymName, uniqueId, gymDescription);
@@ -40,6 +41,36 @@ public class FetchJSONFromAPI{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/** ~~WORK IN PROGRESS!~~
+	 * Gå in i gruppen "Attributes"
+	 *
+	 * OM "Name" == "Introduktion"
+	 * Ta nästa "Value" som String description
+	 *
+	 * @param uniqueId
+	 * @return
+	 */
+	public String parseDescription(String uniqueId){
+			String description = null;
+		try {
+			URL url = new URL("http://api.stockholm.se/ServiceGuideService/DetailedServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f&ids="
+			+ uniqueId);
+			InputStreamReader reader = new InputStreamReader(url.openStream());
+			JsonParser parser = new JsonParser();
+			JsonElement rootElement = parser.parse(reader);
+			JsonArray rootAsArray = rootElement.getAsJsonArray();
+//			JsonArray attributesArray = rootAsArray.get(0);
+
+			for(int i = 0; i < rootAsArray.size(); i++){
+			}
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return description;
 	}
 
 	/**
@@ -72,8 +103,8 @@ public class FetchJSONFromAPI{
 				"\ngymId: "+ i +
 				"\nuniqueId: " + uniqueId +
 				"\ngymDescription: " + gymDescription +
-						"\n"
-					);
+						"\ndetailedAPIPage: http://api.stockholm.se/ServiceGuideService/DetailedServiceUnits/json?apikey=52f545a2957c4615a67ac2025ad9795f&ids="
+							+ uniqueId);
 	}
 
 	public HashMap<Integer,OutdoorGym> getAllOutdoorGyms(){

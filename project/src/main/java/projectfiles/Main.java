@@ -28,7 +28,14 @@ public class Main {
 
         //TEST FetchJSONFromAPI (Print all gyms)
 	    new FetchJSONFromAPI().parseFromAllOutdoorGyms();
-
+        String description = new FetchJSONFromAPI().parseDescription("2eec914c-595d-4148-85cb-97b35c7694d2"); //Hässelby-Vällingby utegym
+        String description2 = new FetchJSONFromAPI().parseDescription("80f8bf8d-bbb9-45cf-9f4f-efe898ad90b7"); //Farstanäsets utegym
+        System.out.println();
+        //Hässelby-Vällingby utegym
+        System.out.println("Hässelby-Vällingby description: " + description);
+        //Farstanäsets utegym
+        System.out.println("Farstanäset description: " + description2);
+        System.out.println();
     }
 
     @RestController
