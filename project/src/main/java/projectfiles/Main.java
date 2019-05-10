@@ -33,7 +33,6 @@ public class Main extends SpringBootServletInitializer {
 */
         //TEST FetchJSONFromAPI (Print all gyms)
 //	    new FetchJSONFromAPI().parseFromAllOutdoorGyms();
-
     }
 
     @RestController
