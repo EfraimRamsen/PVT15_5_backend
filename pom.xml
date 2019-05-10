@@ -96,6 +96,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- added version and configuration, delete if it does not work -->
+                <version>2.1.4.RELEASE</version>
+                <configuration>
+                    <mainClass>${Main-class}</mainClass>
+                    <layout>WAR</layout>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
