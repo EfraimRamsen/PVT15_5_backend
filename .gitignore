@@ -15,6 +15,7 @@ HELP.md
 .idea
 *.iws
 *.iml
+!project.iml
 *.ipr
 
 ### NetBeans ###
